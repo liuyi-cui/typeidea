@@ -1,0 +1,5 @@
+*.ipynb
+.log
+/.idea/
+/venv/
+LICENSE
