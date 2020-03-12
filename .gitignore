@@ -3,3 +3,6 @@
 /.idea/
 /venv/
 LICENSE
+*.pyc
+*.swp
+*.sqlite3
