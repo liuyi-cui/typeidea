@@ -1,0 +1,3 @@
+Blog：Category， Tag,  Post。分类，标签，文章， 内容相关
+Config: Link, SiderBar，友链， 侧边栏，配置相关
+Comment: Comment，评论
