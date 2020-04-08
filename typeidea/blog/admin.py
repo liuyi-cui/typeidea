@@ -9,8 +9,15 @@ from .adminforms import PostAdminForm
 from typeidea.custom_site import custom_site
 from typeidea.base_admin import BaseOwnerAdmin
 
+
+class PostInline(admin.TabularInline):
+    fileds = ('title', 'desc')
+    extra = 1
+    model = Post
+
 @admin.register(Category, site=custom_site)
 class CategoryAdmin(BaseOwnerAdmin):
+    # inlines = [PostInline, ]
     list_display = ('name', 'status', 'is_nav', 'post_count', 'create_time')
     fields = ('name', 'status', 'is_nav')
 
