@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 
 from .models import Post, Tag, Category
 from config.models import SiderBar
@@ -26,15 +27,7 @@ def post_list(request, category_id=None, tag_id=None):
 
 
 
-def post_detail(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        post = None
-
-    context = {
-        'post': post,
-        'sidebars': SiderBar.get_all(),
-    }
-    context.update(Category.get_navs())
-    return render(request, 'blog/detail.html', context=context)
+class PostDetailView(DetailView):
+    # queryset = Post.objects.filter(status=Post.STATUS_NORMAL)
+    model = Post
+    template_name = 'blog/detail.html'
