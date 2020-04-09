@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, ListView
+from django.db.models import Q
+
 
 from .models import Post, Tag, Category
 from config.models import SideBar
@@ -40,6 +42,29 @@ class IndexView(CommonViewMixin, ListView):
     paginate_by = 5
     context_object_name = 'post_list'
     template_name = 'blog/list.html'
+
+
+class SearchView(IndexView):  # 搜索页面
+    def get_context_data(self):  # 控制展示数据.context
+        context = super(SearchView, self).get_context_data()
+        context.update(
+            {'keyword': self.request.GET.get('keyword', '')}
+        )
+        return context
+
+    def get_queryset(self):  # 控制数据源
+        queryset = super(SearchView, self).get_queryset()
+        keyword = self.request.GET.get('keyword')
+        if not keyword:
+            return queryset
+        return queryset.filter(Q(title__icontains=keyword) | Q(desc__icontains=keyword))
+
+
+class AuthorView(IndexView):
+    def get_queryset(self):
+        queryset = super(AuthorView, self).get_queryset()
+        author_id = self.kwargs.get('owner_id')
+        return queryset.filter(owner_id=author_id)
 
 
 class CategoryView(IndexView):
